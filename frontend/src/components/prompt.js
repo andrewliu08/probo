@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { imageFromTextPrompt } from "../api";
 
 export const TextPromptForm = () => {
-  const [prompt, setPrompt] = useState("");
+  const [post, setPost] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
 
   // Text Prompt
