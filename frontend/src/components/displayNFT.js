@@ -47,17 +47,17 @@ const contractABI = [
 ];
 
 const contractAddresses = [
-  "0x2953399124f0cbb46d2cbacd8a89cf0599974963",
-  "0x2953399124f0cbb46d2cbacd8a89cf0599974963",
+  "0x495f947276749ce646f68ac8c248420045cb7b5e",
+  "0x495f947276749ce646f68ac8c248420045cb7b5e",
 ];
 const tokenIds = [
-  "111715845162217839571005182735797974174904274655258581438939978117023549882369",
   "111715845162217839571005182735797974174904274655258581438939978118123061510145",
+  "111715845162217839571005182735797974174904274655258581438939978119222573137921",
 ];
 const walletAddress = "0xF6FceD780Ca6Cd3f3d95Ae5bF8283c61dc22BAFB";
 const apiKey = "4cbadf7bdbff41aaa2b3b46b0c468e74";
 const web3RPCURL =
-  "https://spring-soft-bird.matic.discover.quiknode.pro/96051ef142b0786b1e77417fd97ba131886018ec/";
+  "https://flashy-old-star.discover.quiknode.pro/b64d2659a0871f264e2cddcfdbd2ba054cc77498/";
 const openSeaAssetEndpoint =
   "https://api.opensea.io/api/v1/asset/{contractAddress}/{id}/?include_orders=false";
 
@@ -86,6 +86,7 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
 
 export const DisplayNFT = () => {
   const [nftData, setNftData] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const fetchNFTs = async () => {
@@ -116,14 +117,28 @@ export const DisplayNFT = () => {
     fetchNFTs();
   }, []);
 
+  const handleImageClick = (nftId) => {
+    if (selectedImage === nftId) {
+      setSelectedImage(null);
+    } else {
+      setSelectedImage(nftId);
+    }
+  };
+
   return (
-    <div>
+    <div className="art-selection-container">
       {nftData.length === 0 ? (
         <p>Checking...</p>
       ) : (
         nftData.map((data, index) => (
-          <div key={index}>
-            <img src={data.imageUrl} alt="NFT" style={{ width: "300px" }} />
+          <div
+            key={index}
+            className={`art-selection-image ${
+              selectedImage === data.id ? "art-selection-image-selected" : ""
+            }`}
+            onClick={() => handleImageClick(data.id)}
+          >
+            <img src={data.image_url} alt="NFT" />
           </div>
         ))
       )}

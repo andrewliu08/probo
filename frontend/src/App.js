@@ -1,4 +1,3 @@
-import { ArtSelection } from "./components/artSelection";
 import { ConnectMetaMaskButton } from "./components/wallet";
 import { DisplayNFT } from "./components/displayNFT";
 import { TextPromptForm } from "./components/prompt";
@@ -10,7 +9,6 @@ function App() {
       <header className="App-header">
         <DisplayNFT />
         <ConnectMetaMaskButton />
-        <ArtSelection />
         <TextPromptForm />
       </header>
     </div>
