@@ -8,17 +8,15 @@ import rb from "./rb.png";
 import pablo from "./pablo.png";
 
 export const ArtSelection = () => {
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const images = [vvg, ldv, cm, jv, rb, pablo];
 
   const handleImageClick = (image) => {
-    if (selectedImages.includes(image)) {
-      setSelectedImages(
-        selectedImages.filter((selectedImage) => selectedImage !== image)
-      );
+    if (selectedImage === image) {
+      setSelectedImage(null);
     } else {
-      setSelectedImages([...selectedImages, image]);
+      setSelectedImage(image);
     }
   };
 
@@ -28,7 +26,7 @@ export const ArtSelection = () => {
         <div
           key={image}
           className={`art-selection-image ${
-            selectedImages.includes(image) ? "art-selection-image-selected" : ""
+            selectedImage === image ? "art-selection-image-selected" : ""
           }`}
           onClick={() => handleImageClick(image)}
         >
