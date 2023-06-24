@@ -1,5 +1,6 @@
 import os
 
+from neural_style_transfer_with_eager_execution import *
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 
@@ -51,6 +52,9 @@ def image_prompt():
     file.save(os.path.join(image_upload_folder, file.filename))
 
     response_file = os.path.join(parent_directory, "chimp_cheese.jpeg")
+    best, best_loss = run_style_transfer(response_file,
+                                     style_path, num_iterations=500)
+    return show_results(best, response_file, "/tmp/nst/The_Great_Wave_off_Kanagawa.jpg")
     return send_file(response_file, mimetype="image/jpeg")
 
 
