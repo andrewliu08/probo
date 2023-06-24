@@ -46,11 +46,18 @@ const contractABI = [
   },
 ];
 
-const contractAddresses = [""];
-const tokenIds = [""];
+const contractAddresses = [
+  "0x495f947276749ce646f68ac8c248420045cb7b5e",
+  "0x495f947276749ce646f68ac8c248420045cb7b5e",
+];
+const tokenIds = [
+  "111715845162217839571005182735797974174904274655258581438939978118123061510145",
+  "111715845162217839571005182735797974174904274655258581438939978119222573137921",
+];
 const walletAddress = "0xF6FceD780Ca6Cd3f3d95Ae5bF8283c61dc22BAFB";
 const apiKey = "4cbadf7bdbff41aaa2b3b46b0c468e74";
-const web3RPCURL = "";
+const web3RPCURL =
+  "https://flashy-old-star.discover.quiknode.pro/b64d2659a0871f264e2cddcfdbd2ba054cc77498/";
 const openSeaAssetEndpoint =
   "https://api.opensea.io/api/v1/asset/{contractAddress}/{id}/?include_orders=false";
 
@@ -78,49 +85,62 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
 };
 
 export const DisplayNFT = () => {
-  const [hasNFT, setHasNFT] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [nftData, setNftData] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    const checkBalanceAndFetchMetadata = async () => {
-      try {
-        const userHasNFT = await checkHasNFT(contractAddresses[0], tokenIds[0]);
-        setHasNFT(userHasNFT);
-        console.log("hasNFT", userHasNFT); // Use the updated value here
-        if (userHasNFT) {
-          fetchNFTMetadata();
+    const fetchNFTs = async () => {
+      console.log("start");
+      const fetchedNftData = [];
+
+      for (let i = 0; i < contractAddresses.length; i++) {
+        console.log("i", i);
+        try {
+          const hasNFT = await checkHasNFT(contractAddresses[i], tokenIds[i]);
+          console.log("hasNFT", hasNFT);
+          if (hasNFT) {
+            const metadata = await getNFTMetadata(
+              contractAddresses[i],
+              tokenIds[i]
+            );
+            fetchedNftData.push(metadata);
+            console.log("metadata", metadata);
+          }
+        } catch (error) {
+          console.error("An error occurred:", error);
         }
-      } catch (error) {
-        console.error("An error occurred:", error);
       }
+
+      setNftData(fetchedNftData);
     };
 
-    const fetchNFTMetadata = async () => {
-      try {
-        const metadata = await getNFTMetadata(
-          contractAddresses[0],
-          tokenIds[0]
-        );
-        setImageUrl(metadata.image_url);
-      } catch (error) {
-        console.error("An error occurred while fetching metadata:", error);
-      }
-    };
-
-    checkBalanceAndFetchMetadata();
+    fetchNFTs();
   }, []);
 
+  const handleImageClick = (nftId) => {
+    if (selectedImage === nftId) {
+      setSelectedImage(null);
+    } else {
+      setSelectedImage(nftId);
+    }
+  };
+
   return (
-    <div>
-      {hasNFT === null ? (
-        "Checking..."
+    <div className="art-selection-container">
+      {nftData.length === 0 ? (
+        <p>Checking...</p>
       ) : (
-        <div>
-          <p>Has NFT: {hasNFT.toString()}</p>
-          {imageUrl && (
-            <img src={imageUrl} alt="NFT" style={{ width: "300px" }} />
-          )}
-        </div>
+        nftData.map((data, index) => (
+          <div
+            key={index}
+            className={`art-selection-image ${
+              selectedImage === data.id ? "art-selection-image-selected" : ""
+            }`}
+            onClick={() => handleImageClick(data.id)}
+          >
+            <img src={data.image_url} alt="NFT" />
+          </div>
+        ))
       )}
     </div>
   );
