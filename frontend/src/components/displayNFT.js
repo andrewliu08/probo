@@ -82,7 +82,7 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
 };
 
 export const DisplayNFT = (account) => {
-  const [nftData, setNftData] = useState([]);
+  const [nftData, setNftData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
@@ -131,7 +131,7 @@ export const DisplayNFT = (account) => {
 
   return (
     <div className="art-selection-container">
-      {nftData.length === 0 ? (
+      {!nftData ? (
         <p>Checking...</p>
       ) : (
         nftData.map((data, index) => (
