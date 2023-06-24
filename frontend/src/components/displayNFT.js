@@ -46,11 +46,18 @@ const contractABI = [
   },
 ];
 
-const contractAddresses = [""];
-const tokenIds = [""];
+const contractAddresses = [
+  "0x2953399124f0cbb46d2cbacd8a89cf0599974963",
+  "0x2953399124f0cbb46d2cbacd8a89cf0599974963",
+];
+const tokenIds = [
+  "111715845162217839571005182735797974174904274655258581438939978117023549882369",
+  "111715845162217839571005182735797974174904274655258581438939978118123061510145",
+];
 const walletAddress = "0xF6FceD780Ca6Cd3f3d95Ae5bF8283c61dc22BAFB";
 const apiKey = "4cbadf7bdbff41aaa2b3b46b0c468e74";
-const web3RPCURL = "";
+const web3RPCURL =
+  "https://spring-soft-bird.matic.discover.quiknode.pro/96051ef142b0786b1e77417fd97ba131886018ec/";
 const openSeaAssetEndpoint =
   "https://api.opensea.io/api/v1/asset/{contractAddress}/{id}/?include_orders=false";
 
@@ -78,49 +85,47 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
 };
 
 export const DisplayNFT = () => {
-  const [hasNFT, setHasNFT] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [nftData, setNftData] = useState([]);
 
   useEffect(() => {
-    const checkBalanceAndFetchMetadata = async () => {
-      try {
-        const userHasNFT = await checkHasNFT(contractAddresses[0], tokenIds[0]);
-        setHasNFT(userHasNFT);
-        console.log("hasNFT", userHasNFT); // Use the updated value here
-        if (userHasNFT) {
-          fetchNFTMetadata();
+    const fetchNFTs = async () => {
+      console.log("start");
+      const fetchedNftData = [];
+
+      for (let i = 0; i < contractAddresses.length; i++) {
+        console.log("i", i);
+        try {
+          const hasNFT = await checkHasNFT(contractAddresses[i], tokenIds[i]);
+          console.log("hasNFT", hasNFT);
+          if (hasNFT) {
+            const metadata = await getNFTMetadata(
+              contractAddresses[i],
+              tokenIds[i]
+            );
+            fetchedNftData.push(metadata);
+            console.log("metadata", metadata);
+          }
+        } catch (error) {
+          console.error("An error occurred:", error);
         }
-      } catch (error) {
-        console.error("An error occurred:", error);
       }
+
+      setNftData(fetchedNftData);
     };
 
-    const fetchNFTMetadata = async () => {
-      try {
-        const metadata = await getNFTMetadata(
-          contractAddresses[0],
-          tokenIds[0]
-        );
-        setImageUrl(metadata.image_url);
-      } catch (error) {
-        console.error("An error occurred while fetching metadata:", error);
-      }
-    };
-
-    checkBalanceAndFetchMetadata();
+    fetchNFTs();
   }, []);
 
   return (
     <div>
-      {hasNFT === null ? (
-        "Checking..."
+      {nftData.length === 0 ? (
+        <p>Checking...</p>
       ) : (
-        <div>
-          <p>Has NFT: {hasNFT.toString()}</p>
-          {imageUrl && (
-            <img src={imageUrl} alt="NFT" style={{ width: "300px" }} />
-          )}
-        </div>
+        nftData.map((data, index) => (
+          <div key={index}>
+            <img src={data.imageUrl} alt="NFT" style={{ width: "300px" }} />
+          </div>
+        ))
       )}
     </div>
   );
