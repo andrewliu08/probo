@@ -8,8 +8,14 @@ export const imageFromTextPrompt = async (prompt) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ prompt }),
+      responseType: "blob",
     });
-    return await response.json();
+    if (!response.ok) {
+      throw new Error("Failed to fetch image");
+    }
+
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
   } catch (error) {
     console.error(error);
     throw error;

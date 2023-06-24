@@ -1,68 +1,59 @@
 import React, { useState } from "react";
 import { imageFromTextPrompt } from "../api";
-import { ColorRing } from 'react-loader-spinner'
+import { ColorRing } from "react-loader-spinner";
 
 export const TextPromptForm = () => {
-  const [post, setPost] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-
+  // TODO: I put the returned image in this component
+  // but should probably put it in a separate component.
+  // Not sure how to pass the returned image from the api call
+  // to the component that renders the image.
+  const [isLoading, setIsLoading] = useState(false);
   const [imagePrompt, setImagePrompt] = useState(null);
   const [prompt, setPrompt] = useState("");
+  const [image, setImage] = useState(null);
 
-  // Text Prompt
-  const handleInputChange = (event) => {
-    setPrompt(event.target.value);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setIsLoading(true);
-
-    const response = await imageFromTextPrompt(prompt);
-    console.log(response);
-    setPost(response.result);
-
-    setIsLoading(false);
-  };
-
-  // Image Prompt
+  // Image Upload Prompt
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-
     reader.onload = () => {
       setImagePrompt(reader.result);
     };
-
     if (file) {
       reader.readAsDataURL(file);
     }
   };
+  // Text Prompt
+  const handleInputChange = (event) => {
+    setPrompt(event.target.value);
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
 
+    const imageURL = await imageFromTextPrompt(prompt);
+    setImage(imageURL);
+    setIsLoading(false);
+  };
   return (
     <div>
       <form onSubmit={handleSubmit}>
         {/* Text Prompt */}
         <input type="text" value={prompt} onChange={handleInputChange} />
-
         {/* Image Upload Prompt */}
         <input type="file" onChange={handleImageUpload} />
         {imagePrompt && (
           <div className="image-prompt-container">
-            <img
-              src={imagePrompt}
-              alt="Prompt"
-              className="image-prompt"
-            />
+            <img src={imagePrompt} alt="Prompt" className="image-prompt" />
           </div>
         )}
 
         {/* Submit Prompt */}
         <button type="submit">Submit</button>
-
-        {/* Display submit data */}
-        <p>{isLoading ?
-
+      </form>
+      {/* Display submit data */}
+      <p>
+        {isLoading ? (
           <ColorRing
             visible={true}
             height="180"
@@ -70,11 +61,12 @@ export const TextPromptForm = () => {
             ariaLabel="blocks-loading"
             wrapperStyle={{}}
             wrapperClass="blocks-wrapper"
-            colors={['#FFFF00', '#ED1C24', '#0476C0', '#333333', '#57DBF2']}
+            colors={["#FFFF00", "#ED1C24", "#0476C0", "#333333", "#57DBF2"]}
           />
-
-          : post ? post : ""}</p>
-      </form>
+        ) : (
+          image && <img src={image} alt="" />
+        )}
+      </p>
     </div>
   );
 };
