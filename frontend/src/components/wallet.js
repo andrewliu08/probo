@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MetaMaskSDK from "@metamask/sdk";
 
-export const ConnectMetaMaskButton = () => {
+export const ConnectMetaMaskButton = ({ onAccountChange }) => {
   const MMSDK = new MetaMaskSDK();
   const ethereum = MMSDK.getProvider();
   const [account, setAccount] = useState(null);
@@ -9,7 +9,9 @@ export const ConnectMetaMaskButton = () => {
   useEffect(() => {
     // Check if MetaMask is already connected
     if (ethereum && ethereum.selectedAddress) {
-      setAccount(ethereum.selectedAddress);
+      const acc = ethereum.selectedAddress;
+      setAccount(acc);
+      onAccountChange(acc);
     }
   }, []);
 
