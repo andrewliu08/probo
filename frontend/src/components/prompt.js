@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { imageFromTextPrompt } from "../api";
+import { imageFromImagePrompt } from "../api";
 import { ColorRing } from "react-loader-spinner";
 
 export const TextPromptForm = () => {
@@ -9,37 +9,43 @@ export const TextPromptForm = () => {
   // to the component that renders the image.
   const [isLoading, setIsLoading] = useState(false);
   const [imagePrompt, setImagePrompt] = useState(null);
-  const [prompt, setPrompt] = useState("");
-  const [image, setImage] = useState(null);
+  const [responseImage, setResponseImage] = useState(null);
 
-  // Image Upload Prompt
   const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImagePrompt(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    setImagePrompt(event.target.files[0]);
   };
-  // Text Prompt
-  const handleInputChange = (event) => {
-    setPrompt(event.target.value);
-  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
-    const imageURL = await imageFromTextPrompt(prompt);
-    setImage(imageURL);
+    const formData = new FormData();
+    formData.append("file", imagePrompt);
+
+    try {
+      // const response = await fetch("http://127.0.0.1:5000/image_prompt", {
+      //   method: "POST",
+      //   body: formData,
+      // });
+      // if (!response.ok) {
+      //   throw new Error("Network response was not ok");
+      // }
+
+      const imageURL = await imageFromImagePrompt(formData);
+      setResponseImage(imageURL);
+    } catch (error) {
+      console.error(
+        "There has been a problem with your fetch operation: ",
+        error
+      );
+    }
+
     setIsLoading(false);
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        {/* Text Prompt */}
-        <input type="text" value={prompt} onChange={handleInputChange} />
         {/* Image Upload Prompt */}
         <input type="file" onChange={handleImageUpload} />
         {imagePrompt && (
@@ -64,7 +70,7 @@ export const TextPromptForm = () => {
             colors={["#FFFF00", "#ED1C24", "#0476C0", "#333333", "#57DBF2"]}
           />
         ) : (
-          image && <img src={image} alt="" />
+          responseImage && <img src={responseImage} alt="" />
         )}
       </p>
     </div>

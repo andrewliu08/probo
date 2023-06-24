@@ -21,3 +21,22 @@ export const imageFromTextPrompt = async (prompt) => {
     throw error;
   }
 };
+
+export const imageFromImagePrompt = async (prompt) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/image_prompt`, {
+      method: "POST",
+      body: prompt,
+      responseType: "blob",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch image");
+    }
+
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
