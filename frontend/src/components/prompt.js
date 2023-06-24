@@ -8,11 +8,21 @@ export const TextPromptForm = () => {
   // Not sure how to pass the returned image from the api call
   // to the component that renders the image.
   const [isLoading, setIsLoading] = useState(false);
-  const [imagePrompt, setImagePrompt] = useState(null);
+  const [imagePrompt, setImagePrompt] = useState(null); // preview upload image
+  const [imageFile, setImageFile] = useState(null); // image sent to backend
   const [responseImage, setResponseImage] = useState(null);
 
   const handleImageUpload = (event) => {
-    setImagePrompt(event.target.files[0]);
+    const file = event.target.files[0];
+    setImageFile(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImagePrompt(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -20,7 +30,7 @@ export const TextPromptForm = () => {
     setIsLoading(true);
 
     const formData = new FormData();
-    formData.append("file", imagePrompt);
+    formData.append("file", imageFile);
 
     try {
       // const response = await fetch("http://127.0.0.1:5000/image_prompt", {
