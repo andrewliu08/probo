@@ -32,10 +32,18 @@ export const ConnectMetaMaskButton = ({ onAccountChange }) => {
     }
   };
 
+  const logoutMetaMask = () => {
+    setAccount(null);
+  };
+
+
   return (
     <div>
       {account ? (
-        <p>{`${account.slice(0, 6)}...${account.slice(-4)}`}</p>
+        <div>
+          <p>{`${account.slice(0, 6)}...${account.slice(-4)}`}</p>
+          <button onClick={logoutMetaMask}>Logout</button>
+        </div>
       ) : (
         <button onClick={connectMetaMask}>Connect</button>
       )}
