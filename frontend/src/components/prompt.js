@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { imageFromTextPrompt } from "../api";
+import { ColorRing } from 'react-loader-spinner'
 
 export const TextPromptForm = () => {
   const [post, setPost] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
+
+  const [imagePrompt, setImagePrompt] = useState(null);
+  const [prompt, setPrompt] = useState("");
 
   // Text Prompt
   const handleInputChange = (event) => {
@@ -22,6 +26,18 @@ export const TextPromptForm = () => {
   };
 
   // Image Prompt
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setImagePrompt(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <div>
@@ -30,6 +46,16 @@ export const TextPromptForm = () => {
         <input type="text" value={prompt} onChange={handleInputChange} />
 
         {/* Image Upload Prompt */}
+        <input type="file" onChange={handleImageUpload} />
+        {imagePrompt && (
+          <div className="image-prompt-container">
+            <img
+              src={imagePrompt}
+              alt="Prompt"
+              className="image-prompt"
+            />
+          </div>
+        )}
 
         {/* Submit Prompt */}
         <button type="submit">Submit</button>
