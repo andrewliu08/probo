@@ -54,10 +54,6 @@ const tokenIds = [
   "111715845162217839571005182735797974174904274655258581438939978118123061510145",
   "111715845162217839571005182735797974174904274655258581438939978119222573137921",
 ];
-<<<<<<< HEAD
-const walletAddress = "0xF6FceD780Ca6Cd3f3d95Ae5bF8283c61dc22BAFB";
-=======
->>>>>>> ebf5100d7e14d653872cfef415c3bb2663078fb1
 const apiKey = "4cbadf7bdbff41aaa2b3b46b0c468e74";
 const web3RPCURL =
   "https://flashy-old-star.discover.quiknode.pro/b64d2659a0871f264e2cddcfdbd2ba054cc77498/";
@@ -85,13 +81,6 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
   return metadata;
 };
 
-<<<<<<< HEAD
-export const DisplayNFT = () => {
-  const [nftData, setNftData] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  useEffect(() => {
-=======
 export const DisplayNFT = (account) => {
   const [nftData, setNftData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -100,7 +89,6 @@ export const DisplayNFT = (account) => {
     if (!account) {
       return;
     }
->>>>>>> ebf5100d7e14d653872cfef415c3bb2663078fb1
     const fetchNFTs = async () => {
       console.log("start");
       const fetchedNftData = [];
@@ -108,15 +96,11 @@ export const DisplayNFT = (account) => {
       for (let i = 0; i < contractAddresses.length; i++) {
         console.log("i", i);
         try {
-<<<<<<< HEAD
-          const hasNFT = await checkHasNFT(contractAddresses[i], tokenIds[i]);
-=======
           const hasNFT = await checkHasNFT(
             account.account,
             contractAddresses[i],
             tokenIds[i]
           );
->>>>>>> ebf5100d7e14d653872cfef415c3bb2663078fb1
           console.log("hasNFT", hasNFT);
           if (hasNFT) {
             const metadata = await getNFTMetadata(
@@ -135,19 +119,7 @@ export const DisplayNFT = (account) => {
     };
 
     fetchNFTs();
-<<<<<<< HEAD
-  }, []);
-=======
   }, [account]);
-
-  const handleImageClick = (nftId) => {
-    if (selectedImage === nftId) {
-      setSelectedImage(null);
-    } else {
-      setSelectedImage(nftId);
-    }
-  };
->>>>>>> ebf5100d7e14d653872cfef415c3bb2663078fb1
 
   const handleImageClick = (nftId) => {
     if (selectedImage === nftId) {
@@ -159,11 +131,7 @@ export const DisplayNFT = (account) => {
 
   return (
     <div className="art-selection-container">
-<<<<<<< HEAD
-      {nftData.length === 0 ? (
-=======
       {!nftData ? (
->>>>>>> ebf5100d7e14d653872cfef415c3bb2663078fb1
         <p>Checking...</p>
       ) : (
         nftData.map((data, index) => (
