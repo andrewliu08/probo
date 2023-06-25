@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
+import AccountContext from "../context";
 
 const contractABI = [
   {
@@ -81,7 +82,8 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
   return metadata;
 };
 
-export const DisplayNFT = (account) => {
+export const DisplayNFT = () => {
+  const { account } = React.useContext(AccountContext);
   const [nftData, setNftData] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -97,7 +99,7 @@ export const DisplayNFT = (account) => {
         console.log("i", i);
         try {
           const hasNFT = await checkHasNFT(
-            account.account,
+            account,
             contractAddresses[i],
             tokenIds[i]
           );
