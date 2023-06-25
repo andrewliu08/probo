@@ -4,17 +4,17 @@ import { ColorRing } from "react-loader-spinner";
 import { checkHasNFT, getNFTMetadata, proboNFTs } from "./displayNFT";
 
 import andrew from "./andrew.png";
+import andy from "./andy.png";
 import edward from "./edward.png";
 import vvg from "./vvg.png";
 import ldv from "./ldv.png";
 import jv from "./jv.png";
-import rb from "./rb.png";
 
 export const FloatingImages = () => {
   const { account, uniqueImage, isGeneratingImage } =
     useContext(AccountContext);
   const [nftData, setNftData] = useState(null);
-  const imageSources = [vvg, ldv, jv, rb, andrew, edward];
+  const imageSources = [vvg, ldv, jv, andrew, edward, andy];
 
   const [images, setImages] = useState(
     imageSources.map((src, index) => ({
