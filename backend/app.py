@@ -7,6 +7,11 @@ from flask import Flask, request, send_file
 from flask_cors import CORS
 
 from neural_style_transfer import run_style_transfer
+from load_trained_model import hash_to_avatar
+from load_trained_model import TrainingConfig
+
+
+config = TrainingConfig()
 
 
 app = Flask(__name__)
@@ -70,7 +75,9 @@ def image_prompt():
 
     if not verify_world_id(world_id):
         return {"error": "Could not verify World ID"}, 400
+    
     nullifier_hash = world_id["nullifier_hash"]
+    hash_to_avatar(nullifier_hash, config.trained_path)
 
     current_file_path = os.path.realpath(__file__)
     parent_directory = os.path.dirname(current_file_path)

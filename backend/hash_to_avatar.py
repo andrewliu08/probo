@@ -1,6 +1,7 @@
 from diffusers import UNet2DModel
 from diffusers import DDPMPipeline
 from diffusers import DDPMScheduler
+from app import image_prompt
 
 import hashlib
 import random
@@ -22,6 +23,7 @@ class TrainingConfig:
     save_model_epochs = 1
     mixed_precision = "fp16"  # `no` for float32, `fp16` for automatic mixed precision
     output_dir = "probo/results"  # the model name locally and on the HF Hub
+    trained_path = "model.bin"
 
     push_to_hub = False  # whether to upload the saved model to the HF Hub
     hub_private_repo = False
@@ -98,6 +100,3 @@ def hash_to_avatar(seed_str, trained_path):
 def hash_to_poly_avatar(seed_str, trained_path):
     avatar_path = hash_to_avatar(seed_str, trained_path)
     return polygon_style(avatar_path)
-
-def get_hash():
-    hash = 
