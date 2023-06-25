@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Web3 from "web3";
 import AccountContext from "../context";
 
@@ -47,13 +47,19 @@ const contractABI = [
   },
 ];
 
-const contractAddresses = [
-  "0x495f947276749ce646f68ac8c248420045cb7b5e",
-  "0x495f947276749ce646f68ac8c248420045cb7b5e",
-];
-const tokenIds = [
-  "111715845162217839571005182735797974174904274655258581438939978118123061510145",
-  "111715845162217839571005182735797974174904274655258581438939978119222573137921",
+const artistNFTs = [
+  {
+    artist: "van_gogh",
+    contractAddress: "0x495f947276749ce646f68ac8c248420045cb7b5e",
+    tokenId:
+      "111715845162217839571005182735797974174904274655258581438939978118123061510145",
+  },
+  {
+    artist: "rembrandt",
+    contractAddress: "0x495f947276749ce646f68ac8c248420045cb7b5e",
+    tokenId:
+      "111715845162217839571005182735797974174904274655258581438939978119222573137921",
+  },
 ];
 const apiKey = "4cbadf7bdbff41aaa2b3b46b0c468e74";
 const web3RPCURL =
@@ -83,34 +89,29 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
 };
 
 export const DisplayNFT = () => {
-  const { account } = React.useContext(AccountContext);
+  const { account, artistStyle, setArtistStyle } = useContext(AccountContext);
   const [nftData, setNftData] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     if (!account) {
       return;
     }
     const fetchNFTs = async () => {
-      console.log("start");
       const fetchedNftData = [];
 
-      for (let i = 0; i < contractAddresses.length; i++) {
-        console.log("i", i);
+      for (let i = 0; i < artistNFTs.length; i++) {
         try {
           const hasNFT = await checkHasNFT(
             account,
-            contractAddresses[i],
-            tokenIds[i]
+            artistNFTs[i].contractAddress,
+            artistNFTs[i].tokenId
           );
-          console.log("hasNFT", hasNFT);
           if (hasNFT) {
             const metadata = await getNFTMetadata(
-              contractAddresses[i],
-              tokenIds[i]
+              artistNFTs[i].contractAddress,
+              artistNFTs[i].tokenId
             );
-            fetchedNftData.push(metadata);
-            console.log("metadata", metadata);
+            fetchedNftData.push({ artistNFTIdx: i, metadata: metadata });
           }
         } catch (error) {
           console.error("An error occurred:", error);
@@ -123,11 +124,11 @@ export const DisplayNFT = () => {
     fetchNFTs();
   }, [account]);
 
-  const handleImageClick = (nftId) => {
-    if (selectedImage === nftId) {
-      setSelectedImage(null);
+  const handleImageClick = (artistNFTIdx) => {
+    if (artistStyle === artistNFTs[artistNFTIdx].artist) {
+      setArtistStyle(null);
     } else {
-      setSelectedImage(nftId);
+      setArtistStyle(artistNFTs[artistNFTIdx].artist);
     }
   };
 
@@ -140,11 +141,13 @@ export const DisplayNFT = () => {
           <div
             key={index}
             className={`art-selection-image ${
-              selectedImage === data.id ? "art-selection-image-selected" : ""
+              artistStyle === artistNFTs[data.artistNFTIdx].artist
+                ? "art-selection-image-selected"
+                : ""
             }`}
-            onClick={() => handleImageClick(data.id)}
+            onClick={() => handleImageClick(data.artistNFTIdx)}
           >
-            <img src={data.image_url} alt="NFT" />
+            <img src={data.metadata.image_url} alt="NFT" />
           </div>
         ))
       )}

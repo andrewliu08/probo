@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AccountContext from "./context";
 import { ConnectMetaMaskButton } from "./components/wallet";
 import { DisplayNFT } from "./components/displayNFT";
-import { TextPromptForm } from "./components/prompt";
+import { PromptForm } from "./components/prompt";
 import { useIDKit, IDKitWidget } from "@worldcoin/idkit";
 
 import "./App.css";
@@ -29,7 +29,7 @@ function App() {
             {({ open }) => <button onClick={open}>Click me</button>}
           </IDKitWidget>
 
-          <TextPromptForm />
+          <PromptForm />
         </header>
       </div>
     </AccountContext.Provider>
