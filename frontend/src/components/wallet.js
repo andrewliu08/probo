@@ -44,10 +44,13 @@ export const ConnectMetaMaskButton = ({ onAccountChange }) => {
       {account ? (
         <div>
           <p>{`${account.slice(0, 6)}...${account.slice(-4)}`}</p>
-          <button onClick={logoutMetaMask}>Logout</button>
+          <button onClick={logoutMetaMask} className="metamask-button">
+            <img src={MetaMaskLogo} alt="MetaMask Logo" className="metamask-logo" />
+            Logout
+          </button>
         </div>
       ) : (
-        <button onClick={connectMetaMask}>
+        <button onClick={connectMetaMask} className="metamask-button">
           <img src={MetaMaskLogo} alt="MetaMask Logo" className="metamask-logo" />
           Connect
         </button>
