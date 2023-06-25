@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import AccountContext from "../context";
+import { ColorRing } from "react-loader-spinner";
 
 import vvg from "./vvg.png";
 import ldv from "./ldv.png";
@@ -9,7 +10,7 @@ import rb from "./rb.png";
 import pablo from "./pablo.png";
 
 export const FloatingImages = () => {
-  const { uniqueImage } = useContext(AccountContext);
+  const { uniqueImage, isGeneratingImage } = useContext(AccountContext);
   const imageSources = [vvg, ldv, cm, jv, rb, pablo];
 
   const [images, setImages] = useState(
@@ -48,12 +49,26 @@ export const FloatingImages = () => {
           onAnimationIteration={() => updateImagePosition(image.id)}
         />
       ))}
-      {uniqueImage && (
-        <img
-          className="user-unique-image"
-          src={uniqueImage}
-          alt="unique-user"
+      {isGeneratingImage ? (
+        <div className="user-unique-image">
+        <ColorRing
+          visible={true}
+          height="360"
+          width="360"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#FFFF00", "#ED1C24", "#0476C0", "#333333", "#57DBF2"]}
         />
+        </div>
+      ) : (
+        uniqueImage && (
+          <img
+            className="user-unique-image"
+            src={uniqueImage}
+            alt="unique-user"
+          />
+        )
       )}
     </div>
   );

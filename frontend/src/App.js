@@ -8,6 +8,7 @@ function App() {
   const [account, setAccount] = useState(null);
   const [worldId, setWorldId] = useState(null);
   const [uniqueImage, setUniqueImage] = useState(null);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
   const [artistStyle, setArtistStyle] = useState(null);
 
   return (
@@ -21,6 +22,8 @@ function App() {
         setWorldId,
         uniqueImage,
         setUniqueImage,
+        isGeneratingImage,
+        setIsGeneratingImage,
       }}
     >
       <div className="App">
