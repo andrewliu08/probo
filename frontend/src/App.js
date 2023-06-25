@@ -19,7 +19,7 @@ function App() {
           app_id="app_staging_c0520c3180cae840e95ed335c4447cbf" // obtain this from developer.worldcoin.org
           action=""
           enableTelemetry
-          onSuccess={result => console.log("success")}
+          onSuccess={result => console.log(result)}
         >
           {({ open }) => <button onClick={open}>Click me</button>}
         </IDKitWidget>
