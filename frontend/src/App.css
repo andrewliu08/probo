@@ -14,7 +14,9 @@
 }
 
 .App-header {
-  background: linear-gradient(90deg, #69b7eb, #b3dbd3, #f4d6db);
+  /* background: linear-gradient(90deg, #69b7eb, #b3dbd3, #f4d6db); */
+  background-image: url("components/bg-2.png");
+  background-size: cover;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,6 +24,12 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-navbar {
+  background: linear-gradient(175deg, #69b7eb, #b3dbd3, #f4d6db);
+  flex-direction: column;
+  justify-content: center;
 }
 
 .App-link {
@@ -146,3 +154,90 @@
     transform: rotate(2deg);
   }
 } */
+/* Navbar */
+.grid-item {
+  margin-bottom: 20px;
+  width: 200px;
+  text-align: left;
+}
+.logo {
+  width: 250px;
+  height: 250px;
+  margin-right: 10px;
+}
+
+.logotext {
+  width: 300px;
+  height: 100px;
+  margin-right: 10px;
+}
+
+.container {
+  margin-top: 75px;
+  display: flex;
+}
+
+.left-column {
+  flex: 1;
+  align-self: flex-start;
+  min-width: 700px;
+  padding: 20px;
+}
+
+.right-column {
+  flex: 1;
+  min-width: 700px;
+  padding: 20px;
+}
+
+.grid-item {
+  margin-bottom: 20px;
+  min-width: 350px;
+}
+
+
+p {
+  font-size: 30px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #000204;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+span {
+  height: 100px;
+}
+
+/* Floating Gallery */
+.floating-images-container {
+  position: relative;
+  height: 300px;
+}
+
+.floating-image {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  animation: floatingAnimation 2s infinite alternate;
+}
+
+@keyframes floatingAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
