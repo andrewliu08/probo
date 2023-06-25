@@ -68,7 +68,7 @@ def image_prompt():
     else:
         return {"error": "Artist style not found"}, 400
 
-    best, _ = run_style_transfer(image_upload_file, style_file, num_iterations=5)
+    best, _ = run_style_transfer(image_upload_file, style_file, num_iterations=1)
     res = Image.fromarray(best)
     res.save(image_output_file)
 
