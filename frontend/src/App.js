@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AccountContext from "./context";
-import { ConnectMetaMaskButton } from "./components/wallet";
 import { DisplayNFT } from "./components/displayNFT";
 import { PromptForm } from "./components/prompt";
 import { Navbar } from "./components/navBar";
@@ -25,28 +24,12 @@ function App() {
       }}
     >
       <div className="App">
-      <header className="App-navbar">
-      <Navbar />
-        </header>
-      
         <header className="App-header">
-        
-        
+
+          <Navbar />
+          
+
           <DisplayNFT />
-          <ConnectMetaMaskButton />
-
-          <IDKitWidget
-            app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
-            action="probo-avatar"
-            signal=""
-            enableTelemetry
-            onSuccess={(result) => {
-              setWorldId(result);
-            }}
-          >
-            {({ open }) => <button onClick={open}>Click me</button>}
-          </IDKitWidget>
-
           <PromptForm />
         </header>
       </div>

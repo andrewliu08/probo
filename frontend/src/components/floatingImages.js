@@ -13,8 +13,8 @@ export const FloatingImages = () => {
   const [images, setImages] = useState(
     imageSources.map((src, index) => ({
       id: index + 1,
-      top: Math.floor(Math.random() * 200) + 50,
-      left: Math.floor(Math.random() * 200) + 50,
+      top: Math.floor(Math.random() * 450) + 15,
+      left: Math.floor(Math.random() * 800) + 50,
       direction: index % 2 === 0 ? 1 : -1,
       src: src,
     }))
@@ -27,32 +27,11 @@ export const FloatingImages = () => {
           ? {
               ...image,
               top: image.top + image.direction,
-              left: getRandomPosition(prevImages, image.id),
+              left: Math.floor(Math.random() * 500) + 50,
             }
           : image
       )
     );
-  };
-
-  const getRandomPosition = (prevImages, currentId) => {
-    let newPosition;
-    do {
-      newPosition = Math.floor(Math.random() * 200) + 50;
-    } while (isTooClose(prevImages, currentId, newPosition));
-    return newPosition;
-  };
-
-  const isTooClose = (prevImages, currentId, newPosition) => {
-    const minDistance = 100; // Minimum distance between images
-    for (const image of prevImages) {
-      if (image.id !== currentId) {
-        const distance = Math.abs(image.left - newPosition);
-        if (distance < minDistance) {
-          return true;
-        }
-      }
-    }
-    return false;
   };
 
   return (
