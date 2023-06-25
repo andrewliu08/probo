@@ -16,7 +16,7 @@ function App() {
         <ConnectMetaMaskButton onAccountChange={setAccount} />
 
         <IDKitWidget
-          app_id="app_staging_c0520c3180cae840e95ed335c4447cbf" // obtain this from developer.worldcoin.org
+          app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
           action=""
           enableTelemetry
           onSuccess={result => console.log(result)}
