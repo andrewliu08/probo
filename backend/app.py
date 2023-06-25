@@ -63,6 +63,8 @@ def image_prompt():
         style_file = os.path.join(style_folder, "van_gogh.jpeg")
     elif artist_style == "rembrandt":
         style_file = os.path.join(style_folder, "rembrandt.jpeg")
+    elif artist_style in ["spedward", "amir", "andy"]:
+        style_file = os.path.join(style_folder, "van_gogh.jpeg")
     else:
         return {"error": "Artist style not found"}, 400
 
