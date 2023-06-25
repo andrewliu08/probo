@@ -15,13 +15,19 @@
 
 .App-header {
   background: linear-gradient(90deg, #69b7eb, #b3dbd3, #f4d6db);
-  min-height: 100vh;
+  min-height: 89vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-navbar {
+  background: linear-gradient(175deg, #69b7eb, #b3dbd3, #f4d6db);
+  flex-direction: column;
+  justify-content: center;
 }
 
 .App-link {
@@ -96,4 +102,37 @@
 
 .response-image {
   border-radius: 50%;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+.logotext {
+  width: 180px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.navbar-right {
+  display: flex;
+}
+
+.button {
+  margin-left: 10px;
 }

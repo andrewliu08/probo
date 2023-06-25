@@ -3,6 +3,7 @@ import AccountContext from "./context";
 import { ConnectMetaMaskButton } from "./components/wallet";
 import { DisplayNFT } from "./components/displayNFT";
 import { PromptForm } from "./components/prompt";
+import { Navbar } from "./components/navBar";
 import { useIDKit, IDKitWidget } from "@worldcoin/idkit";
 
 import "./App.css";
@@ -24,7 +25,13 @@ function App() {
       }}
     >
       <div className="App">
+      <header className="App-navbar">
+      <Navbar />
+        </header>
+      
         <header className="App-header">
+        
+        
           <DisplayNFT />
           <ConnectMetaMaskButton />
 
