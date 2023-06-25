@@ -13,16 +13,15 @@ import LogoFinal from "./Logo-final.png";
 import LogoText from "./Logo-text.png";
 
 export const Navbar = () => {
-    const { result, setWorldId } = useContext(AccountContext);
-
+    const { setUniqueImage } = useContext(AccountContext);
     const [worldcoinConnected, setWorldcoinConnected] = useState(false);
     const [verificationSuccess, setVerificationSuccess] = useState(false);
-
-    const { setUniqueImage } = useContext(AccountContext);
 
   const handleWorldIdResponse = async (result) => {
     const imageURL = await generateUniqueImage(result);
     setUniqueImage(imageURL);
+    setWorldcoinConnected(true);
+    setVerificationSuccess(true);
   };
 
     return (
@@ -42,11 +41,7 @@ export const Navbar = () => {
                             action="probo-avatar"
                             signal=""
                             enableTelemetry
-                            onSuccess={(result) => {
-                                setWorldId(result);
-                                setWorldcoinConnected(true);
-                                setVerificationSuccess(true);
-                            }}
+                            onSuccess={handleWorldIdResponse}
                         >
                             {({ open }) => (
                                 <button onClick={open} className="metamask-button">
