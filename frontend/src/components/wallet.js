@@ -40,15 +40,23 @@ export const ConnectMetaMaskButton = () => {
     <div>
       {account ? (
         <div>
-          <p>{`${account.slice(0, 6)}...${account.slice(-4)}`}</p>
+          <h2>{`${account.slice(0, 6)}...${account.slice(-4)}`}</h2>
           <button onClick={logoutMetaMask} className="metamask-button">
-            <img src={MetaMaskLogo} alt="MetaMask Logo" className="metamask-logo" />
+            <img
+              src={MetaMaskLogo}
+              alt="MetaMask Logo"
+              className="metamask-logo"
+            />
             Logout
           </button>
         </div>
       ) : (
         <button onClick={connectMetaMask} className="metamask-button">
-          <img src={MetaMaskLogo} alt="MetaMask Logo" className="metamask-logo" />
+          <img
+            src={MetaMaskLogo}
+            alt="MetaMask Logo"
+            className="metamask-logo"
+          />
           Connect MetaMask
         </button>
       )}

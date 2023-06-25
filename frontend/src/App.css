@@ -45,6 +45,10 @@
   }
 }
 
+h2 {
+  color: black;
+}
+
 /* components */
 .art-selection-container {
   display: flex;

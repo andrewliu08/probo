@@ -15,14 +15,12 @@ import LogoText from "./Logo-text.png";
 export const Navbar = () => {
   const { setUniqueImage, setIsGeneratingImage } = useContext(AccountContext);
   const [worldcoinConnected, setWorldcoinConnected] = useState(false);
-  const [verificationSuccess, setVerificationSuccess] = useState(false);
 
   const handleWorldIdResponse = async (result) => {
     setIsGeneratingImage(true);
     const imageURL = await generateUniqueImage(result);
     setUniqueImage(imageURL);
     setWorldcoinConnected(true);
-    setVerificationSuccess(true);
     setIsGeneratingImage(false);
   };
 
@@ -43,7 +41,7 @@ export const Navbar = () => {
             your individuality shapes the beauty you behold. @ETHGlobal Waterloo
             2023{" "}
           </p>
-
+          <ConnectMetaMaskButton />
           {/* Show just Connect World Coin */}
           {!worldcoinConnected && (
             <IDKitWidget
@@ -65,10 +63,9 @@ export const Navbar = () => {
               )}
             </IDKitWidget>
           )}
-          {/* If World Coin connected, show Metamask Connect + Mint Your Avatar */}
-          {worldcoinConnected && verificationSuccess && (
+          {/* If World Coin connected, show Mint Your Avatar */}
+          {worldcoinConnected && (
             <>
-              <ConnectMetaMaskButton />
               <button className="mint-button">
                 <img
                   src={OpenSeaLogo}

@@ -47,6 +47,14 @@ const contractABI = [
   },
 ];
 
+export const proboNFTs = [
+  {
+    contractAddress: "0x495f947276749ce646f68ac8c248420045cb7b5e",
+    tokenId:
+      "111715845162217839571005182735797974174904274655258581438939978120322084765697",
+  },
+];
+
 const artistNFTs = [
   {
     artist: "van_gogh",
@@ -85,7 +93,7 @@ const web3RPCURL =
 const openSeaAssetEndpoint =
   "https://api.opensea.io/api/v1/asset/{contractAddress}/{id}/?include_orders=false";
 
-const checkHasNFT = async (account, contractAddress, tokenId) => {
+export const checkHasNFT = async (account, contractAddress, tokenId) => {
   const web3 = new Web3(web3RPCURL);
   const contract = new web3.eth.Contract(contractABI, contractAddress);
   const balance = await contract.methods.balanceOf(account, tokenId).call();
@@ -93,7 +101,7 @@ const checkHasNFT = async (account, contractAddress, tokenId) => {
   return hasNFT;
 };
 
-const getNFTMetadata = async (contractAddress, tokenId) => {
+export const getNFTMetadata = async (contractAddress, tokenId) => {
   const endpointURL = openSeaAssetEndpoint
     .replace("{contractAddress}", contractAddress)
     .replace("{id}", tokenId);

@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AccountContext from "../context";
 import { ColorRing } from "react-loader-spinner";
+import { checkHasNFT, getNFTMetadata, proboNFTs } from "./displayNFT";
 
-import andrew from "./andrew.png"
+import andrew from "./andrew.png";
 import vvg from "./vvg.png";
 import ldv from "./ldv.png";
 import jv from "./jv.png";
@@ -10,7 +11,9 @@ import rb from "./rb.png";
 import pablo from "./pablo.png";
 
 export const FloatingImages = () => {
-  const { uniqueImage, isGeneratingImage } = useContext(AccountContext);
+  const { account, uniqueImage, isGeneratingImage } =
+    useContext(AccountContext);
+  const [nftData, setNftData] = useState(null);
   const imageSources = [vvg, ldv, jv, rb, pablo, andrew];
 
   const [images, setImages] = useState(
@@ -22,6 +25,37 @@ export const FloatingImages = () => {
       src: src,
     }))
   );
+
+  useEffect(() => {
+    const fetchNFTs = async () => {
+      for (let i = 0; i < proboNFTs.length; i++) {
+        try {
+          const hasNFT = await checkHasNFT(
+            account,
+            proboNFTs[i].contractAddress,
+            proboNFTs[i].tokenId
+          );
+          if (hasNFT) {
+            const metadata = await getNFTMetadata(
+              proboNFTs[i].contractAddress,
+              proboNFTs[i].tokenId
+            );
+            setNftData(metadata);
+            return;
+          }
+        } catch (error) {
+          console.error("An error occurred:", error);
+          return;
+        }
+      }
+    };
+
+    setNftData(null);
+    if (!account) {
+      return;
+    }
+    fetchNFTs();
+  }, [account]);
 
   const updateImagePosition = (id) => {
     setImages((prevImages) =>
@@ -49,17 +83,23 @@ export const FloatingImages = () => {
           onAnimationIteration={() => updateImagePosition(image.id)}
         />
       ))}
-      {isGeneratingImage ? (
-        <div className="user-unique-image">
-        <ColorRing
-          visible={true}
-          height="360"
-          width="360"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#FFFF00", "#ED1C24", "#0476C0", "#333333", "#57DBF2"]}
+      {nftData ? (
+        <img
+          className="user-unique-image"
+          src={nftData.image_url}
+          alt="unique-user"
         />
+      ) : isGeneratingImage ? (
+        <div className="user-unique-image">
+          <ColorRing
+            visible={true}
+            height="360"
+            width="360"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            colors={["#FFFF00", "#ED1C24", "#0476C0", "#333333", "#57DBF2"]}
+          />
         </div>
       ) : (
         uniqueImage && (
