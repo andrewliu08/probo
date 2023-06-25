@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import AccountContext from "../context";
+import { ColorRing } from "react-loader-spinner";
 
 import andrew from "./andrew.png"
 import vvg from "./vvg.png";
@@ -9,8 +10,13 @@ import rb from "./rb.png";
 import pablo from "./pablo.png";
 
 export const FloatingImages = () => {
+<<<<<<< HEAD
   const { uniqueImage } = useContext(AccountContext);
   const imageSources = [vvg, ldv, jv, rb, pablo, andrew];
+=======
+  const { uniqueImage, isGeneratingImage } = useContext(AccountContext);
+  const imageSources = [vvg, ldv, cm, jv, rb, pablo];
+>>>>>>> aae370cf890fb24faaedbbaeedba4befbe637c9a
 
   const [images, setImages] = useState(
     imageSources.map((src, index) => ({
@@ -48,12 +54,26 @@ export const FloatingImages = () => {
           onAnimationIteration={() => updateImagePosition(image.id)}
         />
       ))}
-      {uniqueImage && (
-        <img
-          className="user-unique-image"
-          src={uniqueImage}
-          alt="unique-user"
+      {isGeneratingImage ? (
+        <div className="user-unique-image">
+        <ColorRing
+          visible={true}
+          height="360"
+          width="360"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#FFFF00", "#ED1C24", "#0476C0", "#333333", "#57DBF2"]}
         />
+        </div>
+      ) : (
+        uniqueImage && (
+          <img
+            className="user-unique-image"
+            src={uniqueImage}
+            alt="unique-user"
+          />
+        )
       )}
     </div>
   );
