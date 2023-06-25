@@ -1,5 +1,7 @@
+import json
 import os
 
+import requests
 from PIL import Image
 from flask import Flask, request, send_file
 from flask_cors import CORS
@@ -37,10 +39,26 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def verify_world_id(world_id_response):
+    WORLDCOIN_API_URL = "https://developer.worldcoin.org/api/v1/verify/app_946a85ccdca5b48f37f64c4fadb38467"
+    headers = {"Content-Type": "application/json"}
+    data = {
+        "nullifier_hash": world_id_response["nullifier_hash"],
+        "merkle_root": world_id_response["merkle_root"],
+        "proof": world_id_response["proof"],
+        "credential_type": world_id_response["credential_type"],
+        "action": "probo-avatar",
+        "signal": "",
+    }
+    response = requests.post(WORLDCOIN_API_URL, headers=headers, json=data)
+    return response.status_code == 200
+
+
 @app.route("/image_prompt", methods=["POST"])
 def image_prompt():
     if "file" not in request.files:
         return {"error": "No file part"}, 400
+    world_id = json.loads(request.form.get("worldId"))
     file = request.files["file"]
     artist_style = request.form.get("artistStyle")
     if file.filename == "":
@@ -49,6 +67,10 @@ def image_prompt():
         return {"error": "File not found"}, 400
     if not allowed_file(file.filename):
         return {"error": "File type not supported"}, 400
+
+    if not verify_world_id(world_id):
+        return {"error": "Could not verify World ID"}, 400
+    nullifier_hash = world_id["nullifier_hash"]
 
     current_file_path = os.path.realpath(__file__)
     parent_directory = os.path.dirname(current_file_path)
