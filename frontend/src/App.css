@@ -96,4 +96,53 @@
 
 .response-image {
   border-radius: 50%;
+  border: 6px solid gold; /* Increased border thickness */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease-in-out;
+  width: 50%; /* Decreased image size to 50% */
+  position: relative; /* Added position relative for the shimmer effect */
+  overflow: hidden; /* Added overflow hidden to hide overflowing shimmer */
 }
+
+.response-image::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 80%);
+  opacity: 0;
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.response-image:hover {
+  transform: rotate(-2deg) scale(0.96); /* Decreased image size to 96% (half of the original size) */
+}
+
+/* 
+.response-image:hover {
+  transform: rotate(-2deg) scale(0.96);
+  animation: wobble 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes wobble {
+  0% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(2deg);
+  }
+} */

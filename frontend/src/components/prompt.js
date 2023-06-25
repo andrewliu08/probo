@@ -71,7 +71,7 @@ export const PromptForm = () => {
             colors={["#FFFF00", "#ED1C24", "#0476C0", "#333333", "#57DBF2"]}
           />
         ) : (
-          responseImage && <img src={responseImage} alt="" />
+          responseImage && <img src={responseImage} alt="" className="response-image"/>
         )}
       </p>
     </div>

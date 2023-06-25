@@ -30,6 +30,7 @@ def load_img(path_to_img):
 
     img = img_to_array(img)
     img = np.expand_dims(img, axis=0)
+    print(img.shape)
     return img
 
 

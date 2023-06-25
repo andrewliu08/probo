@@ -6,7 +6,8 @@ import hashlib
 import random
 import torch
 import numpy as np
-import PIL
+
+from polygon_styler import polygon_style
 
 class TrainingConfig:
     inference_steps = 1000
@@ -93,3 +94,10 @@ def hash_to_avatar(seed_str, trained_path):
 
     # return path to PNG
     return config.avatar_path
+
+def hash_to_poly_avatar(seed_str, trained_path):
+    avatar_path = hash_to_avatar(seed_str, trained_path)
+    return polygon_style(avatar_path)
+
+def get_hash():
+    hash = 
