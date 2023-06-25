@@ -4,7 +4,7 @@ import { imageFromImagePrompt } from "../api";
 import { ColorRing } from "react-loader-spinner";
 
 export const PromptForm = () => {
-  const { artistStyle } = useContext(AccountContext);
+  const { artistStyle, worldId } = useContext(AccountContext);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePrompt, setImagePrompt] = useState(null); // preview upload image
   const [imageFile, setImageFile] = useState(null); // image sent to backend
@@ -27,7 +27,9 @@ export const PromptForm = () => {
     event.preventDefault();
     setIsLoading(true);
 
+    // TODO: check if worldId and artistStyle are set
     const formData = new FormData();
+    formData.append("worldId", JSON.stringify(worldId));
     formData.append("file", imageFile);
     formData.append("artistStyle", artistStyle);
 
