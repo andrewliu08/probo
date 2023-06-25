@@ -8,13 +8,13 @@ import andy from "./andy.png";
 import edward from "./edward.png";
 import vvg from "./vvg.png";
 import ldv from "./ldv.png";
-import jv from "./jv.png";
+import amir from "./amir.png";
 
 export const FloatingImages = () => {
   const { account, uniqueImage, isGeneratingImage } =
     useContext(AccountContext);
   const [nftData, setNftData] = useState(null);
-  const imageSources = [vvg, ldv, jv, andrew, edward, andy];
+  const imageSources = [vvg, ldv, andrew, edward, andy, amir];
 
   const [images, setImages] = useState(
     imageSources.map((src, index) => ({
