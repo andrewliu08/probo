@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import AccountContext from "../context";
 import { imageFromImagePrompt } from "../api";
 import { ColorRing } from "react-loader-spinner";
 
-export const TextPromptForm = () => {
-  // TODO: I put the returned image in this component
-  // but should probably put it in a separate component.
-  // Not sure how to pass the returned image from the api call
-  // to the component that renders the image.
+export const PromptForm = () => {
+  const { artistStyle } = useContext(AccountContext);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePrompt, setImagePrompt] = useState(null); // preview upload image
   const [imageFile, setImageFile] = useState(null); // image sent to backend
@@ -31,6 +29,7 @@ export const TextPromptForm = () => {
 
     const formData = new FormData();
     formData.append("file", imageFile);
+    formData.append("artistStyle", artistStyle);
 
     try {
       const imageURL = await imageFromImagePrompt(formData);

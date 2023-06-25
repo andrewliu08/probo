@@ -1,8 +1,11 @@
 import os
 
-from neural_style_transfer_with_eager_execution import *
-from flask import Flask, jsonify, request, send_file
+from PIL import Image
+from flask import Flask, request, send_file
 from flask_cors import CORS
+
+from neural_style_transfer import run_style_transfer
+
 
 app = Flask(__name__)
 allowed_origins = [
@@ -39,6 +42,7 @@ def image_prompt():
     if "file" not in request.files:
         return {"error": "No file part"}, 400
     file = request.files["file"]
+    artist_style = request.form.get("artistStyle")
     if file.filename == "":
         return {"error": "No selected file"}, 400
     if not file:
@@ -49,13 +53,24 @@ def image_prompt():
     current_file_path = os.path.realpath(__file__)
     parent_directory = os.path.dirname(current_file_path)
     image_upload_folder = os.path.join(parent_directory, "image_uploads")
-    file.save(os.path.join(image_upload_folder, file.filename))
+    image_upload_file = os.path.join(image_upload_folder, file.filename)
+    image_output_folder = os.path.join(parent_directory, "image_outputs")
+    image_output_file = os.path.join(image_output_folder, file.filename)
 
-    response_file = os.path.join(parent_directory, "chimp_cheese.jpeg")
-    best, best_loss = run_style_transfer(response_file,
-                                     style_path, num_iterations=500)
-    return show_results(best, response_file, "/tmp/nst/The_Great_Wave_off_Kanagawa.jpg")
-    return send_file(response_file, mimetype="image/jpeg")
+    file.save(image_upload_file)
+    style_folder = os.path.join(parent_directory, "artist_styles")
+    if artist_style == "van_gogh":
+        style_file = os.path.join(style_folder, "van_gogh.jpeg")
+    elif artist_style == "rembrandt":
+        style_file = os.path.join(style_folder, "rembrandt.jpeg")
+    else:
+        return {"error": "Artist style not found"}, 400
+
+    best, _ = run_style_transfer(image_upload_file, style_file, num_iterations=5)
+    res = Image.fromarray(best)
+    res.save(image_output_file)
+
+    return send_file(image_output_file, mimetype="image/jpeg")
 
 
 if __name__ == "__main__":
