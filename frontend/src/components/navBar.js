@@ -1,44 +1,48 @@
-import React, { useContext } from 'react';
-import AccountContext from '../context';
+import React, { useContext } from "react";
+import AccountContext from "../context";
 
 import { FloatingImages } from "./floatingImages";
 import { ConnectMetaMaskButton } from "./wallet";
-import { useIDKit, IDKitWidget } from "@worldcoin/idkit";
+import { IDKitWidget } from "@worldcoin/idkit";
+import { generateUniqueImage } from "../api";
 
 import LogoFinal from "./Logo-final.png";
 import LogoText from "./Logo-text.png";
 
 export const Navbar = () => {
-    const { result, setWorldId } = useContext(AccountContext);
+  const { setUniqueImage } = useContext(AccountContext);
 
-    return (
-        <div className="container">
-            <div className="left-column">
-                <div className="grid-item">
-                    <img src={LogoFinal} alt="Logo" className="logo" />
+  const handleWorldIdResponse = async (result) => {
+    const imageURL = await generateUniqueImage(result);
+    setUniqueImage(imageURL);
+  };
 
-                    <img src={LogoText} alt="Logo-text" className="logotext" />
+  return (
+    <div className="container">
+      <div className="left-column">
+        <div className="grid-item">
+          <img src={LogoFinal} alt="Logo" className="logo" />
 
-                    <p>Probo. Unique one-of-a-kind landscape NFT. </p>
+          <img src={LogoText} alt="Logo-text" className="logotext" />
 
-                    <ConnectMetaMaskButton />
+          <p>Probo. Unique one-of-a-kind landscape NFT. </p>
 
-                    <IDKitWidget
-                        app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
-                        action="probo-avatar"
-                        signal=""
-                        enableTelemetry
-                        onSuccess={(result) => {
-                            setWorldId(result);
-                        }}
-                    >
-                        {({ open }) => <button onClick={open}>Connect Worldcoin</button>}
-                    </IDKitWidget>
-                </div>
-            </div>
-            <div className="right-column">
-                <FloatingImages />
-            </div>
+          <ConnectMetaMaskButton />
+
+          <IDKitWidget
+            app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
+            action="probo-avatar"
+            signal=""
+            enableTelemetry
+            onSuccess={handleWorldIdResponse}
+          >
+            {({ open }) => <button onClick={open}>Connect Worldcoin</button>}
+          </IDKitWidget>
         </div>
-    );
+      </div>
+      <div className="right-column">
+        <FloatingImages />
+      </div>
+    </div>
+  );
 };
