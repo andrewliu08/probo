@@ -112,10 +112,11 @@ def unique_image():
 
     nullifier_hash = world_id["nullifier_hash"]
     print(nullifier_hash)
+    image_file_path = hash_to_avatar(nullifier_hash, config.trained_path)
 
-    current_file_path = os.path.realpath(__file__)
-    parent_directory = os.path.dirname(current_file_path)
-    image_file_path = os.path.join(parent_directory, "chimp_cheese.jpeg")
+    # current_file_path = os.path.realpath(__file__)
+    # parent_directory = os.path.dirname(current_file_path)
+    # image_file_path = os.path.join(parent_directory, "chimp_cheese.jpeg")
     return send_file(image_file_path, mimetype="image/jpeg")
 
 
