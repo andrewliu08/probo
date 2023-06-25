@@ -13,7 +13,7 @@ export const FloatingImages = () => {
   const [images, setImages] = useState(
     imageSources.map((src, index) => ({
       id: index + 1,
-      top: Math.floor(Math.random() * 450) + 15,
+      top: Math.floor(Math.random() * 450) + 20,
       left: Math.floor(Math.random() * 800) + 50,
       direction: index % 2 === 0 ? 1 : -1,
       src: src,

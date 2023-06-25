@@ -100,6 +100,16 @@
   align-items: center; 
   border-radius: 5px; 
   padding: 5px 10px;
+  background-color: #000204;
+  color: #ffffff;
+}
+
+.mint-button {
+  align-items: center; 
+  border-radius: 5px; 
+  padding: 5px 10px;
+  background-color: rgba(52, 200, 245, 0.882);
+  color: #ffffff;
 }
 
 .response-image {
@@ -154,6 +164,7 @@
     transform: rotate(2deg);
   }
 } */
+
 /* Navbar */
 .grid-item {
   margin-bottom: 20px;
@@ -173,7 +184,7 @@
 }
 
 .container {
-  margin-top: 75px;
+  margin-top: 60px;
   display: flex;
 }
 
@@ -192,29 +203,23 @@
 
 .grid-item {
   margin-bottom: 20px;
-  min-width: 350px;
+  min-width: 550px;
 }
 
 
 p {
-  font-size: 30px;
+  font-size: 20px;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
   color: black;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 button {
-  background-color: #000204;
-  color: #ffffff;
   border: none;
   border-radius: 4px;
   padding: 8px 16px;
-  font-size: 14px;
+  font-size: 20px;
   cursor: pointer;
-}
-
-span {
-  height: 100px;
 }
 
 /* Floating Gallery */
