@@ -9,6 +9,7 @@ import "./App.css";
 
 function App() {
   const [account, setAccount] = useState(null);
+  const [worldId, setWorldId] = useState(null);
   const [artistStyle, setArtistStyle] = useState(null);
 
   return (
@@ -20,14 +21,17 @@ function App() {
           <DisplayNFT />
           <ConnectMetaMaskButton />
 
-        <IDKitWidget
-          app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
-          action=""
-          enableTelemetry
-          onSuccess={result => console.log(result)}
-        >
-          {({ open }) => <button onClick={open}>Click me</button>}
-        </IDKitWidget>
+          <IDKitWidget
+            app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
+            action="probo-avatar"
+            enableTelemetry
+            onSuccess={(result) => {
+              setWorldId(result);
+              console.log(result);
+            }}
+          >
+            {({ open }) => <button onClick={open}>Click me</button>}
+          </IDKitWidget>
 
           <PromptForm />
         </header>
