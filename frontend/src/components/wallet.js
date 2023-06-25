@@ -49,7 +49,7 @@ export const ConnectMetaMaskButton = () => {
       ) : (
         <button onClick={connectMetaMask} className="metamask-button">
           <img src={MetaMaskLogo} alt="MetaMask Logo" className="metamask-logo" />
-          Connect
+          Connect MetaMask
         </button>
       )}
     </div>
