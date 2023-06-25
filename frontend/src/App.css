@@ -228,6 +228,16 @@ button {
   height: 300px;
 }
 
+.user-unique-image {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  animation: floatingAnimation 2s infinite alternate;
+  top: 100px;
+  left: 100px;
+  border: 20px groove #FFFF00;
+}
+
 .floating-image {
   position: absolute;
   width: 200px;

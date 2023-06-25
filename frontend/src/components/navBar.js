@@ -3,7 +3,8 @@ import AccountContext from '../context';
 
 import { FloatingImages } from "./floatingImages";
 import { ConnectMetaMaskButton } from "./wallet";
-import { useIDKit, IDKitWidget } from "@worldcoin/idkit";
+import { IDKitWidget } from "@worldcoin/idkit";
+import { generateUniqueImage } from "../api";
 
 import WorldcoinLogo from "./worldcoin.png";
 import OpenSeaLogo from "./opensea.png";
@@ -16,6 +17,13 @@ export const Navbar = () => {
 
     const [worldcoinConnected, setWorldcoinConnected] = useState(false);
     const [verificationSuccess, setVerificationSuccess] = useState(false);
+
+    const { setUniqueImage } = useContext(AccountContext);
+
+  const handleWorldIdResponse = async (result) => {
+    const imageURL = await generateUniqueImage(result);
+    setUniqueImage(imageURL);
+  };
 
     return (
         <div className="container">
@@ -63,6 +71,6 @@ export const Navbar = () => {
             <div className="right-column">
                 <FloatingImages />
             </div>
-        </div>
-    );
+    </div>
+  );
 };

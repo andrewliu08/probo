@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from "react";
+import AccountContext from "../context";
 
 import vvg from "./vvg.png";
 import ldv from "./ldv.png";
@@ -8,6 +9,7 @@ import rb from "./rb.png";
 import pablo from "./pablo.png";
 
 export const FloatingImages = () => {
+  const { uniqueImage } = useContext(AccountContext);
   const imageSources = [vvg, ldv, cm, jv, rb, pablo];
 
   const [images, setImages] = useState(
@@ -41,11 +43,18 @@ export const FloatingImages = () => {
           key={image.id}
           className="floating-image"
           src={image.src}
-          alt={`Image ${image.id}`}
+          alt={`other-users-images-${image.id}`}
           style={{ top: `${image.top}px`, left: `${image.left}px` }}
           onAnimationIteration={() => updateImagePosition(image.id)}
         />
       ))}
+      {uniqueImage && (
+        <img
+          className="user-unique-image"
+          src={uniqueImage}
+          alt="unique-user"
+        />
+      )}
     </div>
   );
 };

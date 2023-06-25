@@ -75,7 +75,7 @@ def image_prompt():
 
     if not verify_world_id(world_id):
         return {"error": "Could not verify World ID"}, 400
-    
+
     nullifier_hash = world_id["nullifier_hash"]
     hash_to_avatar(nullifier_hash, config.trained_path)
 
@@ -102,6 +102,21 @@ def image_prompt():
     res.save(image_output_file)
 
     return send_file(image_output_file, mimetype="image/jpeg")
+
+
+@app.route("/unique_image", methods=["POST"])
+def unique_image():
+    world_id = request.get_json()
+    if not verify_world_id(world_id):
+        return {"error": "Could not verify World ID"}, 400
+
+    nullifier_hash = world_id["nullifier_hash"]
+    print(nullifier_hash)
+
+    current_file_path = os.path.realpath(__file__)
+    parent_directory = os.path.dirname(current_file_path)
+    image_file_path = os.path.join(parent_directory, "chimp_cheese.jpeg")
+    return send_file(image_file_path, mimetype="image/jpeg")
 
 
 if __name__ == "__main__":
