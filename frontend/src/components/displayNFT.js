@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Web3 from "web3";
+import AccountContext from "../context";
 
 const contractABI = [
   {
@@ -46,13 +47,37 @@ const contractABI = [
   },
 ];
 
-const contractAddresses = [
-  "0x495f947276749ce646f68ac8c248420045cb7b5e",
-  "0x495f947276749ce646f68ac8c248420045cb7b5e",
-];
-const tokenIds = [
-  "111715845162217839571005182735797974174904274655258581438939978118123061510145",
-  "111715845162217839571005182735797974174904274655258581438939978119222573137921",
+const artistNFTs = [
+  {
+    artist: "van_gogh",
+    contractAddress: "0x495f947276749ce646f68ac8c248420045cb7b5e",
+    tokenId:
+      "111715845162217839571005182735797974174904274655258581438939978118123061510145",
+  },
+  {
+    artist: "rembrandt",
+    contractAddress: "0x495f947276749ce646f68ac8c248420045cb7b5e",
+    tokenId:
+      "111715845162217839571005182735797974174904274655258581438939978119222573137921",
+  },
+  {
+    artist: "spedward",
+    contractAddress: "0x495f947276749ce646f68ac8c248420045cb7b5e",
+    tokenId:
+      "20222148730939510742085223881991044139457813020212785641302316542131766820865",
+  },
+  {
+    artist: "andy",
+    contractAddress: "0x495f947276749Ce646f68AC8c248420045cb7b5e",
+    tokenId:
+      "74743269691400256161474562831061133918838157159896849151698386143212004704257",
+  },
+  {
+    artist: "amir",
+    contractAddress: "0x495f947276749Ce646f68AC8c248420045cb7b5e",
+    tokenId:
+      "93478729683723419007047079989949114255691551576804525283770076826191492284417",
+  },
 ];
 const apiKey = "4cbadf7bdbff41aaa2b3b46b0c468e74";
 const web3RPCURL =
@@ -81,34 +106,30 @@ const getNFTMetadata = async (contractAddress, tokenId) => {
   return metadata;
 };
 
-export const DisplayNFT = (account) => {
+export const DisplayNFT = () => {
+  const { account, artistStyle, setArtistStyle } = useContext(AccountContext);
   const [nftData, setNftData] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     if (!account) {
       return;
     }
     const fetchNFTs = async () => {
-      console.log("start");
       const fetchedNftData = [];
 
-      for (let i = 0; i < contractAddresses.length; i++) {
-        console.log("i", i);
+      for (let i = 0; i < artistNFTs.length; i++) {
         try {
           const hasNFT = await checkHasNFT(
-            account.account,
-            contractAddresses[i],
-            tokenIds[i]
+            account,
+            artistNFTs[i].contractAddress,
+            artistNFTs[i].tokenId
           );
-          console.log("hasNFT", hasNFT);
           if (hasNFT) {
             const metadata = await getNFTMetadata(
-              contractAddresses[i],
-              tokenIds[i]
+              artistNFTs[i].contractAddress,
+              artistNFTs[i].tokenId
             );
-            fetchedNftData.push(metadata);
-            console.log("metadata", metadata);
+            fetchedNftData.push({ artistNFTIdx: i, metadata: metadata });
           }
         } catch (error) {
           console.error("An error occurred:", error);
@@ -121,11 +142,11 @@ export const DisplayNFT = (account) => {
     fetchNFTs();
   }, [account]);
 
-  const handleImageClick = (nftId) => {
-    if (selectedImage === nftId) {
-      setSelectedImage(null);
+  const handleImageClick = (artistNFTIdx) => {
+    if (artistStyle === artistNFTs[artistNFTIdx].artist) {
+      setArtistStyle(null);
     } else {
-      setSelectedImage(nftId);
+      setArtistStyle(artistNFTs[artistNFTIdx].artist);
     }
   };
 
@@ -138,11 +159,13 @@ export const DisplayNFT = (account) => {
           <div
             key={index}
             className={`art-selection-image ${
-              selectedImage === data.id ? "art-selection-image-selected" : ""
+              artistStyle === artistNFTs[data.artistNFTIdx].artist
+                ? "art-selection-image-selected"
+                : ""
             }`}
-            onClick={() => handleImageClick(data.id)}
+            onClick={() => handleImageClick(data.artistNFTIdx)}
           >
-            <img src={data.image_url} alt="NFT" />
+            <img src={data.metadata.image_url} alt="NFT" />
           </div>
         ))
       )}

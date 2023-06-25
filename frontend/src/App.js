@@ -1,19 +1,24 @@
 import React, { useState } from "react";
+import AccountContext from "./context";
 import { ConnectMetaMaskButton } from "./components/wallet";
 import { DisplayNFT } from "./components/displayNFT";
-import { TextPromptForm } from "./components/prompt";
-import { useIDKit, IDKitWidget } from '@worldcoin/idkit'
+import { PromptForm } from "./components/prompt";
+import { useIDKit, IDKitWidget } from "@worldcoin/idkit";
 
 import "./App.css";
 
 function App() {
   const [account, setAccount] = useState(null);
+  const [artistStyle, setArtistStyle] = useState(null);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <DisplayNFT account={account} />
-        <ConnectMetaMaskButton onAccountChange={setAccount} />
+    <AccountContext.Provider
+      value={{ account, setAccount, artistStyle, setArtistStyle }}
+    >
+      <div className="App">
+        <header className="App-header">
+          <DisplayNFT />
+          <ConnectMetaMaskButton />
 
         <IDKitWidget
           app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
@@ -24,10 +29,10 @@ function App() {
           {({ open }) => <button onClick={open}>Click me</button>}
         </IDKitWidget>
 
-        <TextPromptForm />
-
-      </header>
-    </div>
+          <PromptForm />
+        </header>
+      </div>
+    </AccountContext.Provider>
   );
 }
 

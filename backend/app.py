@@ -42,6 +42,7 @@ def image_prompt():
     if "file" not in request.files:
         return {"error": "No file part"}, 400
     file = request.files["file"]
+    artist_style = request.form.get("artistStyle")
     if file.filename == "":
         return {"error": "No selected file"}, 400
     if not file:
@@ -58,7 +59,14 @@ def image_prompt():
 
     file.save(image_upload_file)
     style_folder = os.path.join(parent_directory, "artist_styles")
-    style_file = os.path.join(style_folder, "rembrandt.jpeg")
+    if artist_style == "van_gogh":
+        style_file = os.path.join(style_folder, "van_gogh.jpeg")
+    elif artist_style == "rembrandt":
+        style_file = os.path.join(style_folder, "rembrandt.jpeg")
+    elif artist_style in ["spedward", "amir", "andy"]:
+        style_file = os.path.join(style_folder, "van_gogh.jpeg")
+    else:
+        return {"error": "Artist style not found"}, 400
 
     best, _ = run_style_transfer(image_upload_file, style_file, num_iterations=5)
     res = Image.fromarray(best)

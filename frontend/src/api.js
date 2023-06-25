@@ -22,11 +22,11 @@ export const imageFromTextPrompt = async (prompt) => {
   }
 };
 
-export const imageFromImagePrompt = async (prompt) => {
+export const imageFromImagePrompt = async (formData) => {
   try {
     const response = await fetch(`${BACKEND_URL}/image_prompt`, {
       method: "POST",
-      body: prompt,
+      body: formData,
       responseType: "blob",
     });
     if (!response.ok) {

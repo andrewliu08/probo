@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import MetaMaskSDK from "@metamask/sdk";
-import MetaMaskLogo from "./metamask.png"; // Replace with the actual path to the MetaMask logo image
+import AccountContext from "../context";
+import MetaMaskLogo from "./metamask.png";
 
-
-export const ConnectMetaMaskButton = ({ onAccountChange }) => {
+export const ConnectMetaMaskButton = () => {
   const MMSDK = new MetaMaskSDK();
   const ethereum = MMSDK.getProvider();
-  const [account, setAccount] = useState(null);
+  const { account, setAccount } = useContext(AccountContext);
 
   useEffect(() => {
     // Check if MetaMask is already connected
     if (ethereum && ethereum.selectedAddress) {
-      const acc = ethereum.selectedAddress;
-      setAccount(acc);
-      onAccountChange(acc);
+      setAccount(ethereum.selectedAddress);
     }
   }, []);
 
@@ -37,7 +35,6 @@ export const ConnectMetaMaskButton = ({ onAccountChange }) => {
   const logoutMetaMask = () => {
     setAccount(null);
   };
-
 
   return (
     <div>
