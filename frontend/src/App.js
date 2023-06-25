@@ -14,7 +14,14 @@ function App() {
 
   return (
     <AccountContext.Provider
-      value={{ account, setAccount, artistStyle, setArtistStyle }}
+      value={{
+        account,
+        setAccount,
+        artistStyle,
+        setArtistStyle,
+        worldId,
+        setWorldId,
+      }}
     >
       <div className="App">
         <header className="App-header">
@@ -24,10 +31,10 @@ function App() {
           <IDKitWidget
             app_id="app_946a85ccdca5b48f37f64c4fadb38467" // obtain this from developer.worldcoin.org
             action="probo-avatar"
+            signal=""
             enableTelemetry
             onSuccess={(result) => {
               setWorldId(result);
-              console.log(result);
             }}
           >
             {({ open }) => <button onClick={open}>Click me</button>}
