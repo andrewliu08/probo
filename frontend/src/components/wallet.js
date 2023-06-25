@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MetaMaskSDK from "@metamask/sdk";
+import MetaMaskLogo from "./metamask.png"; // Replace with the actual path to the MetaMask logo image
+
 
 export const ConnectMetaMaskButton = ({ onAccountChange }) => {
   const MMSDK = new MetaMaskSDK();
@@ -32,12 +34,23 @@ export const ConnectMetaMaskButton = ({ onAccountChange }) => {
     }
   };
 
+  const logoutMetaMask = () => {
+    setAccount(null);
+  };
+
+
   return (
     <div>
       {account ? (
-        <p>{`${account.slice(0, 6)}...${account.slice(-4)}`}</p>
+        <div>
+          <p>{`${account.slice(0, 6)}...${account.slice(-4)}`}</p>
+          <button onClick={logoutMetaMask}>Logout</button>
+        </div>
       ) : (
-        <button onClick={connectMetaMask}>Connect</button>
+        <button onClick={connectMetaMask}>
+          <img src={MetaMaskLogo} alt="MetaMask Logo" className="metamask-logo" />
+          Connect
+        </button>
       )}
     </div>
   );
