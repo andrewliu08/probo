@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@auth0/auth0-react": "^2.1.1",
+    "@worldcoin/idkit": "^0.5.1",
+    "oidc-react": "^3.2.2"
+  }
+}
