@@ -7,8 +7,8 @@ from flask import Flask, request, send_file
 from flask_cors import CORS
 
 from neural_style_transfer import run_style_transfer
-from load_trained_model import hash_to_avatar
-from load_trained_model import TrainingConfig
+from hash_to_avatar import hash_to_avatar
+from hash_to_avatar import TrainingConfig
 
 
 config = TrainingConfig()

@@ -1,7 +1,6 @@
 from diffusers import UNet2DModel
 from diffusers import DDPMPipeline
 from diffusers import DDPMScheduler
-from app import image_prompt
 
 import hashlib
 import random
@@ -12,7 +11,7 @@ from polygon_styler import polygon_style
 
 class TrainingConfig:
     inference_steps = 1000
-    image_size = 32  # the generated image resolution # 128 for production
+    image_size = 128  # the generated image resolution # 128 for production
     train_batch_size = 64
     eval_batch_size = 16  # how many images to sample during evaluation
     num_epochs = 1
@@ -23,14 +22,14 @@ class TrainingConfig:
     save_model_epochs = 1
     mixed_precision = "fp16"  # `no` for float32, `fp16` for automatic mixed precision
     output_dir = "probo/results"  # the model name locally and on the HF Hub
-    trained_path = "model.bin"
+    trained_path = "diffusion_pytorch_model.bin"
 
     push_to_hub = False  # whether to upload the saved model to the HF Hub
     hub_private_repo = False
     overwrite_output_dir = True  # overwrite the old model when re-running the notebook
     seed = 0
     
-    avatar_path = "your_froggy_avatar.png"
+    avatar_path = "your_token.png"
 
 config = TrainingConfig()
 
@@ -78,12 +77,19 @@ def gen_to_avatar(model, generator):
 
 # end-to-end function
 def hash_to_avatar(seed_str, trained_path):
+    # encode the string
+    seed_str = seed_str.encode('utf-8')
+
     # create the generator
     hash_object = hashlib.md5(seed_str)
     hash_string = hash_object.hexdigest()
 
     seed = int (hash_string, 16)
+    seed = seed % (2**31 - 1)
     generator = torch.manual_seed(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.cuda.manual_seed(seed)
         
     # load the model
     model = load_model(trained_path=trained_path)
@@ -100,3 +106,6 @@ def hash_to_avatar(seed_str, trained_path):
 def hash_to_poly_avatar(seed_str, trained_path):
     avatar_path = hash_to_avatar(seed_str, trained_path)
     return polygon_style(avatar_path)
+
+
+hash_to_avatar('0x2f0b4e604037b881ff2d7a0f94307712bf3cd84ccb19f0b1fd0339cdfb3df9aa', config.trained_path)
