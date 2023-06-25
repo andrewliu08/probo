@@ -40,3 +40,22 @@ export const imageFromImagePrompt = async (formData) => {
     throw error;
   }
 };
+
+export const generateUniqueImage = async (worldId) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/unique_image`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(worldId),
+      responseType: "blob",
+    });
+
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
