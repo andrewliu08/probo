@@ -10,13 +10,8 @@ import rb from "./rb.png";
 import pablo from "./pablo.png";
 
 export const FloatingImages = () => {
-<<<<<<< HEAD
-  const { uniqueImage } = useContext(AccountContext);
-  const imageSources = [vvg, ldv, jv, rb, pablo, andrew];
-=======
   const { uniqueImage, isGeneratingImage } = useContext(AccountContext);
-  const imageSources = [vvg, ldv, cm, jv, rb, pablo];
->>>>>>> aae370cf890fb24faaedbbaeedba4befbe637c9a
+  const imageSources = [vvg, ldv, jv, rb, pablo, andrew];
 
   const [images, setImages] = useState(
     imageSources.map((src, index) => ({
