@@ -11,8 +11,7 @@ import ian from "../assets/landscapes/WC-1.png";
 import wc2 from "../assets/landscapes/WC-2.png";
 
 export const FloatingImages = () => {
-  const { account, uniqueImage, isGeneratingImage } =
-    useContext(AccountContext);
+  const { account, uniqueImage, isGeneratingImage } = useContext(AccountContext);
   const [nftData, setNftData] = useState(null);
   const imageSources = [andrew, edward, andy, amir, ian, wc2];
 
