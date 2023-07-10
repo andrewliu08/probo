@@ -9,18 +9,20 @@ import edward from "./edward.png";
 import vvg from "./vvg.png";
 import ldv from "./ldv.png";
 import amir from "./amir.png";
+import ian from "./WC-1.png";
+import wc2 from "./WC-2.png";
 
 export const FloatingImages = () => {
   const { account, uniqueImage, isGeneratingImage } =
     useContext(AccountContext);
   const [nftData, setNftData] = useState(null);
-  const imageSources = [vvg, ldv, andrew, edward, andy, amir];
+  const imageSources = [vvg, ldv, andrew, edward, andy, amir, ian, wc2];
 
   const [images, setImages] = useState(
     imageSources.map((src, index) => ({
       id: index + 1,
-      top: Math.floor(Math.random() * 450) + 20,
-      left: Math.floor(Math.random() * 800) + 50,
+      top: Math.floor(Math.random() * 375) + 20,
+      left: Math.floor(Math.random() * 700) + 50,
       direction: index % 2 === 0 ? 1 : -1,
       src: src,
     }))
