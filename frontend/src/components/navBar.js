@@ -6,11 +6,11 @@ import { ConnectMetaMaskButton } from "./wallet";
 import { IDKitWidget } from "@worldcoin/idkit";
 import { generateUniqueImage } from "../api";
 
-import WorldcoinLogo from "./worldcoin.png";
-import OpenSeaLogo from "./opensea.png";
+import WorldcoinLogo from "../assets/company/worldcoin.png";
+import OpenSeaLogo from "../assets/company/opensea.png";
 
-import LogoFinal from "./Logo-final.png";
-import LogoText from "./Logo-text.png";
+import LogoFinal from "../assets/Logo-final.png";
+import LogoText from "../assets/Logo-text.png";
 
 export const Navbar = () => {
   const { setUniqueImage, setIsGeneratingImage } = useContext(AccountContext);

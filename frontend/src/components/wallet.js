@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import MetaMaskSDK from "@metamask/sdk";
 import AccountContext from "../context";
-import MetaMaskLogo from "./metamask.png";
+import MetaMaskLogo from "../assets/company/metamask.png";
 
 export const ConnectMetaMaskButton = () => {
   const MMSDK = new MetaMaskSDK();

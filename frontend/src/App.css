@@ -15,7 +15,7 @@
 
 .App-header {
   /* background: linear-gradient(90deg, #69b7eb, #b3dbd3, #f4d6db); */
-  background-image: url("components/bg-2.png");
+  background-image: url("assets/bg-2.png");
   background-size: cover;
   min-height: 100vh;
   display: flex;
